@@ -7,6 +7,8 @@
 #include "Win11TaskbarSettingDlg.h"
 #include "TaskBarDlg.h"
 #include "WindowsSettingHelper.h"
+#include "OverlayTaskbarDlg.h"
+#include "TaskbarHelper.h"
 
 
 // CWin11TaskbarSettingDlg 对话框
@@ -34,7 +36,7 @@ void CWin11TaskbarSettingDlg::DoDataExchange(CDataExchange* pDX)
 
 CString CWin11TaskbarSettingDlg::GetDialogName() const
 {
-    return _T("Win11TaskbarSettingDlg");
+    return _T("TaskbarLayoutSettingDlg");
 }
 
 bool CWin11TaskbarSettingDlg::InitializeControls()
@@ -66,6 +68,7 @@ void CWin11TaskbarSettingDlg::EnableDlgCtrl(UINT id, bool enable)
 
 BEGIN_MESSAGE_MAP(CWin11TaskbarSettingDlg, CBaseDialog)
     ON_BN_CLICKED(IDC_RESTORE_DEFAULT_BUTTON, &CWin11TaskbarSettingDlg::OnBnClickedRestoreDefaultButton)
+    ON_BN_CLICKED(IDC_TASKBAR_OVERLAY_CHECK, &CWin11TaskbarSettingDlg::OnOverlayChanged)
 END_MESSAGE_MAP()
 
 
@@ -87,6 +90,19 @@ BOOL CWin11TaskbarSettingDlg::OnInitDialog()
     //EnableDlgCtrl(IDC_AVOID_OVERLAP_RIGHT_WIDGETS_CHECK, CWindowsSettingHelper::IsTaskbarWidgetsBtnShown());
     m_widgets_width_edit.SetRange(0, 300);
     m_widgets_width_edit.SetValue(m_data.taskbar_left_space_win11);
+    CheckDlgButton(IDC_TASKBAR_OVERLAY_CHECK, m_data.taskbar_left_overlay);
+    CheckDlgButton(IDC_COMPACT_CPU_FREQ_CHECK, m_data.cpu_freq_short_unit);
+    auto* rows = static_cast<CComboBox*>(GetDlgItem(IDC_TASKBAR_ROWS_COMBO));
+    rows->AddString(L"2");
+    rows->AddString(L"3");
+    rows->SetCurSel(m_data.taskbar_rows == 3 ? 1 : 0);
+    bool secondary = false;
+    RECT taskbar_rect{};
+    const HWND target = CTaskbarHelper::ResolveTaskbar(m_data, secondary);
+    const bool horizontal = ::GetWindowRect(target, &taskbar_rect)
+        && taskbar_rect.right - taskbar_rect.left >= taskbar_rect.bottom - taskbar_rect.top;
+    EnableDlgCtrl(IDC_TASKBAR_ROWS_COMBO, !m_data.horizontal_arrange && horizontal);
+    UpdatePlacementControls();
     //m_widgets_width_edit.EnableWindow(CWindowsSettingHelper::IsTaskbarWidgetsBtnShown());
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -96,6 +112,9 @@ BOOL CWin11TaskbarSettingDlg::OnInitDialog()
 
 void CWin11TaskbarSettingDlg::OnOK()
 {
+    m_data.taskbar_left_overlay = IsDlgButtonChecked(IDC_TASKBAR_OVERLAY_CHECK) != 0;
+    m_data.cpu_freq_short_unit = IsDlgButtonChecked(IDC_COMPACT_CPU_FREQ_CHECK) != 0;
+    m_data.taskbar_rows = static_cast<CComboBox*>(GetDlgItem(IDC_TASKBAR_ROWS_COMBO))->GetCurSel() == 1 ? 3 : 2;
     m_data.tbar_wnd_snap = (IsDlgButtonChecked(IDC_TASKBAR_WND_SNAP_CHECK) != 0);
 
     m_data.window_offset_top = m_window_offset_top_edit.GetValue();
@@ -117,7 +136,34 @@ void CWin11TaskbarSettingDlg::OnOK()
 
 void CWin11TaskbarSettingDlg::OnBnClickedRestoreDefaultButton()
 {
-    m_window_offset_top_edit.SetValue(0);
-    m_window_offset_left_edit.SetValue(0);
-    m_widgets_width_edit.SetValue(160);
+    if (m_window_offset_top_edit.IsWindowEnabled())
+        m_window_offset_top_edit.SetValue(0);
+    if (m_window_offset_left_edit.IsWindowEnabled())
+        m_window_offset_left_edit.SetValue(0);
+}
+
+void CWin11TaskbarSettingDlg::OnOverlayChanged()
+{
+    UpdatePlacementControls();
+}
+
+void CWin11TaskbarSettingDlg::UpdatePlacementControls()
+{
+    auto pending = m_data;
+    pending.taskbar_left_overlay = IsDlgButtonChecked(IDC_TASKBAR_OVERLAY_CHECK) != 0;
+    bool horizontal = true;
+    const bool available = COverlayTaskbarDlg::IsAvailable(pending, &horizontal);
+    const bool overlay = COverlayTaskbarDlg::IsEnabled(pending);
+    const bool native = theApp.IsWindows11Taskbar() && !overlay;
+    // Keep an existing preference editable even when the target is unavailable.
+    EnableDlgCtrl(IDC_TASKBAR_OVERLAY_CHECK, available || pending.taskbar_left_overlay);
+    EnableDlgCtrl(IDC_TASKBAR_WND_SNAP_CHECK, native && CTaskBarDlg::IsTaskbarCloseToIconEnable(pending.tbar_wnd_on_left));
+    m_window_offset_left_edit.EnableWindow(native || (overlay && horizontal));
+    m_window_offset_top_edit.EnableWindow(native || (overlay && !horizontal));
+    EnableDlgCtrl(IDC_AVOID_OVERLAP_RIGHT_WIDGETS_CHECK, native);
+    m_widgets_width_edit.EnableWindow(native);
+    EnableDlgCtrl(IDC_RESTORE_DEFAULT_BUTTON, native || overlay);
+    const wchar_t* status = !available ? L"TXT_OVERLAY_UNAVAILABLE" :
+        overlay ? L"TXT_OVERLAY_ACTIVE" : L"TXT_OVERLAY_AVAILABLE";
+    SetDlgItemText(IDC_OVERLAY_STATUS_STATIC, theApp.m_str_table.LoadText(status).c_str());
 }

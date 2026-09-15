@@ -14,6 +14,7 @@
 #include "FileDialogEx.h"
 #include "Win11TaskbarSettingDlg.h"
 #include "TaskbarHelper.h"
+#include "OverlayTaskbarDlg.h"
 
 // CTaskBarSettingsDlg 对话框
 
@@ -112,9 +113,10 @@ void CTaskBarSettingsDlg::EnableControl()
     EnableDlgCtrl(IDC_NET_SPEED_FIGURE_MAX_VALUE_EDIT, m_data.show_netspeed_figure);
     EnableDlgCtrl(IDC_NET_SPEED_FIGURE_MAX_VALUE_UNIT_COMBO, m_data.show_netspeed_figure);
     //Win11下，任务栏左对齐时禁用“任务栏窗口显示在任务栏左侧”的选项
-    EnableDlgCtrl(IDC_TASKBAR_WND_ON_LEFT_CHECK, !theApp.IsWindows11Taskbar() || CWindowsSettingHelper::IsTaskbarCenterAlign());
+    EnableDlgCtrl(IDC_TASKBAR_WND_ON_LEFT_CHECK, !theApp.IsWindows11Taskbar() || CWindowsSettingHelper::IsTaskbarCenterAlign()
+        || (m_data.taskbar_left_overlay && COverlayTaskbarDlg::IsAvailable(m_data)));
     EnableDlgCtrl(IDC_ENABLE_COLOR_EMOJI_CHECK, !m_data.disable_d2d);
-    EnableDlgCtrl(IDC_WIN11_SETTINGS_BUTTON, theApp.IsWindows11Taskbar());
+    EnableDlgCtrl(IDC_WIN11_SETTINGS_BUTTON, true);
 }
 
 
@@ -954,12 +956,14 @@ void CTaskBarSettingsDlg::OnBnClickedWin11SettingsButton()
 {
     CWin11TaskbarSettingDlg dlg(m_data);
     dlg.DoModal();
+    EnableControl();
 }
 
 
 void CTaskBarSettingsDlg::OnBnClickedTaskbarWndInSecondaryDisplayCheck()
 {
     m_data.show_taskbar_wnd_in_secondary_display = (IsDlgButtonChecked(IDC_TASKBAR_WND_IN_SECONDARY_DISPLAY_CHECK) != FALSE);
+    EnableControl();
 }
 
 
@@ -977,6 +981,7 @@ void CTaskBarSettingsDlg::OnCbnSelchangeDisplayToShowTaskbarWndCombo()
         m_data.secondary_display_index = combo_index - 1;
 
     }
+    EnableControl();
 }
 
 
