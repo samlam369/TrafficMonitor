@@ -7,15 +7,37 @@ optional overlay placement mode.
 
 ## What changes?
 
-- **Overlay placement:** anchor the monitor at the left or top of a supported
-  primary taskbar without moving or shrinking its app-icon container.
-- **Three-row layout:** fit items into columns of three on horizontal taskbars,
-  with an automatic two-row fallback when the font does not fit.
-- **Compact CPU frequency units:** display `3.41G` instead of `3.41GHz`.
-- **Two-row spacing:** keep item rectangles inside the taskbar window when
-  adding positive vertical spacing.
-- **Layout settings:** expose these options and applicable placement offsets
-  in the taskbar settings dialog.
+- **Keep taskbar icons together**
+
+  - **Problem:** Showing TrafficMonitor on the left can create a large gap
+    between Task View and app icons on taskbars such as StartAllBack.
+  - **New behavior:** Enable **Keep taskbar icons in place** below the left-side
+    placement option. The monitor sits at the left edge (top on vertical
+    taskbars) without shifting the icons. It may overlap Widgets/weather or
+    icons when the taskbar fills up.
+
+- **Fit more readings on a tall taskbar**
+
+  - **Problem:** Two rows can leave vertical space unused while readings spread
+    across more columns and take up taskbar width.
+  - **New behavior:** Choose three rows in **Layout and placement...** to stack
+    more readings in each column. If the taskbar is too short for the selected
+    font, the display falls back to two rows automatically.
+
+- **Use a shorter CPU frequency label**
+
+  - **Problem:** The fixed `GHz` suffix takes up space in a compact display.
+  - **New behavior:** In **Unit Settings**, choose `G` instead of `GHz` to show
+    values such as `3.41G`. The display uses less width; the value still means
+    3.41 GHz.
+
+- **Keep two-row text inside the display when adding spacing**
+
+  - **Problem:** Increasing the gap between two rows can push text beyond the
+    display's top and bottom edges, cutting it off.
+  - **New behavior:** The gap stays inside the display and is limited to leave
+    room for the measured font height. A font too large for two rows can still
+    be clipped even with no gap.
 
 Overlay placement, three rows and compact units are opt-in. Existing INI keys
 are retained. Overlay does not reserve space for Widgets/weather or app icons:
