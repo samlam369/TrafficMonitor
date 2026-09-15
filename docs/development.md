@@ -46,8 +46,7 @@ machine paths. Keep public documentation reproducible without private files.
 
 ## Validation status
 
-The review candidate has passed local x64 Lite builds and Windows CI geometry
-checks; review builds have also been deployed. See [compatibility](compatibility.md)
-for observed desktop behavior and the unresolved settings-open exit failure.
-Successful builds, geometry tests and individual screenshots do not replace the
-remaining manual checklist. Attach results to the tested commit or release.
+Automated validation covers x64 Lite builds and layout geometry checks. See
+[compatibility](compatibility.md) for scope, known limits and the desktop
+validation checklist. Successful builds and geometry tests do not establish
+desktop compatibility. Attach validation results to the tested commit or release.

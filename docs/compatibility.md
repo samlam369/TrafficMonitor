@@ -8,16 +8,15 @@ motivating compatibility case; this does not imply support for every StartAllBac
 version or every replacement taskbar. Secondary taskbar overlay is outside the
 initial scope.
 
-The earlier local implementation was exercised with StartAllBack on Windows 11
-25H2, including horizontal and vertical placement. Those observations are design
-evidence, not validation of the refactored fork. No broad product/version support
-matrix is claimed before repeatable desktop testing.
+Support for specific Windows and StartAllBack versions should be established
+through repeatable desktop testing. No broad product/version support matrix
+is currently claimed.
 
 ## Known limits
 
-- Overlay does not reserve Widgets/weather or icon space. Review screenshots
-  confirmed overlap with an enabled weather/Widgets area. This is a placement
-  tradeoff, not a condition that the native Widgets-width setting corrects.
+- Overlay does not reserve Widgets/weather or icon space, so these can overlap
+  the monitor. The native Widgets-width setting does not reserve space in
+  overlay mode.
 - Three-row layout needs enough height for the selected font; otherwise it
   falls back to two rows without changing the saved setting.
 - Two-row item bounds can fit while a large font still clips within a row.
@@ -25,29 +24,15 @@ matrix is claimed before repeatable desktop testing.
 - Full builds, non-x64 configurations, additional taskbar replacements and
   untested Windows versions require separate verification.
 
-## Review observations (2026-09-15)
+## Validation coverage
 
-The x64 Lite candidate has been built, deployed and restarted on the review
-machine. User screenshots and read-only geometry capture confirmed horizontal
-three-row edge placement. UI wording and spacing were revised during review;
-these observations do not establish every version's complete UI coverage.
-Build and geometry CI passed for implementation commit `9548b57`; see the
-[fork review](https://github.com/samlam369/TrafficMonitor/pull/1) for current checks.
+Automated checks cover the x64 Lite build and layout geometry. They do not
+verify desktop integration or rendering. See the
+[fork review](https://github.com/samlam369/TrafficMonitor/pull/1) for build checks.
 
-An exit failure was observed with modal settings open: the taskbar display
-closed while the tray process stayed alive; further waiting and tray Exit did
-not resolve it. The user terminated that instance. The root cause and whether
-it is inherited from upstream remain unconfirmed.
-
-A subsequent sequence succeeded: accept the inner placement dialog, accept
-Options, then request normal exit after the main window becomes enabled again.
-This is a workaround, not a fix. Finish intended edits and close settings before
-routine deployment, and verify process exit rather than relying on visible UI.
-
-The latest option dependency/spacing changes still need complete manual review.
-Cancel/Apply combinations, native Windows 11 regression, vertical/resize behavior
-in the refactor, Explorer recovery, secondary/mixed-DPI displays, custom plugin
-rendering and rollback remain unverified unless recorded separately.
+Desktop validation is still partial. The checklist below defines the coverage
+needed for release review; it is not a list of passed tests. Results should
+identify the tested commit and environment.
 
 ## Manual checklist
 
