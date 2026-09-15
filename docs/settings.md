@@ -5,6 +5,12 @@ The dialog exposes layout options independently of whether Windows reports a
 native Windows 11 taskbar. Native-only placement controls remain conditional. The compact CPU frequency
 checkbox is in **Taskbar Window Settings > Unit Settings**.
 
+The **Place at the edge without moving taskbar icons** option puts the monitor
+at the left edge (top on vertical taskbars), leaving taskbar icons in place.
+It is useful when the normal placement shifts icons managed by a replacement
+taskbar. If the taskbar fills up, icons can overlap the monitor. The internal
+name and INI key still use "overlay".
+
 ## Options and persisted keys
 
 All keys below belong to the existing `[task_bar]` INI section.
