@@ -55,8 +55,9 @@ Open **Option Settings > Taskbar Window Settings**:
 The icon-preserving option is inactive when left-side placement is off.
 Read [settings](docs/settings.md) for activation conditions and examples.
 
-This fork is being prepared for its first reviewed release. Upstream binaries
-linked in the preserved documentation do not include these changes. See
+[Download fork pre-releases](https://github.com/samlam369/TrafficMonitor/releases)
+for the x64 Lite build. Upstream binaries linked in the preserved documentation
+do not include these changes. See
 [development](docs/development.md) to build from source and
 [compatibility](docs/compatibility.md) for the validation checklist and limits.
 
