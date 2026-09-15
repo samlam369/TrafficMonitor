@@ -865,6 +865,8 @@
     <ClInclude Include="TrafficMonitorDlg.h" />
     <ClInclude Include="UpdateHelper.h" />
     <ClInclude Include="WIC.h" />
+    <ClInclude Include="OverlayTaskbarDlg.h" />
+    <ClInclude Include="OverlayLayout.h" />
     <ClInclude Include="Win11TaskbarDlg.h" />
     <ClInclude Include="Win11TaskbarSettingDlg.h" />
     <ClInclude Include="WindowsSettingHelper.h" />
@@ -987,6 +989,7 @@
     <ClCompile Include="TrafficMonitorDlg.cpp" />
     <ClCompile Include="UpdateHelper.cpp" />
     <ClCompile Include="WIC.cpp" />
+    <ClCompile Include="OverlayTaskbarDlg.cpp" />
     <ClCompile Include="Win11TaskbarDlg.cpp" />
     <ClCompile Include="Win11TaskbarSettingDlg.cpp" />
     <ClCompile Include="WindowsSettingHelper.cpp" />
