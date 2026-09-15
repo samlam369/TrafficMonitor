@@ -16,13 +16,13 @@ optional overlay placement mode.
     taskbars) without shifting the icons. It may overlap Widgets/weather or
     icons when the taskbar fills up.
 
-- **Fit more readings on a tall taskbar**
+- **Keep text inside the display when adding spacing**
 
-  - **Problem:** Two rows can leave vertical space unused while readings spread
-    across more columns and take up taskbar width.
-  - **New behavior:** Choose three rows in **Layout and placement...** to stack
-    more readings in each column. If the taskbar is too short for the selected
-    font, the display falls back to two rows automatically.
+  - **Problem:** Increasing the gap between rows can push text beyond the
+    display's top and bottom edges, cutting it off.
+  - **New behavior:** Two- and three-row layouts limit the gap to leave room
+    for the measured font height. Three rows fall back to two when needed;
+    a font too large for two rows can still be clipped even with no gap.
 
 - **Use a shorter CPU frequency label**
 
@@ -31,13 +31,13 @@ optional overlay placement mode.
     values such as `3.41G`. The display uses less width; the value still means
     3.41 GHz.
 
-- **Keep two-row text inside the display when adding spacing**
+- **Fit more rows if the taskbar is tall enough**
 
-  - **Problem:** Increasing the gap between two rows can push text beyond the
-    display's top and bottom edges, cutting it off.
-  - **New behavior:** The gap stays inside the display and is limited to leave
-    room for the measured font height. A font too large for two rows can still
-    be clipped even with no gap.
+  - **Problem:** Two rows can leave vertical space unused while readings spread
+    across more columns and take up taskbar width.
+  - **New behavior:** Choose three rows in **Layout and placement...** to stack
+    more readings in each column. If the taskbar is too short for the selected
+    font, the display falls back to two rows automatically.
 
 Overlay placement, three rows and compact units are opt-in. Existing INI keys
 are retained. Overlay does not reserve space for Widgets/weather or app icons:
