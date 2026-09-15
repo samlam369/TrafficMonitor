@@ -81,3 +81,15 @@ settings on exit and may overwrite edits made while it is running.
 Disable overlay, select two rows and disable compact units to restore the
 corresponding upstream behavior. A stored overlay preference does not guarantee
 that the current taskbar meets its activation conditions.
+
+## Application updates
+
+**General Settings > Application Settings > Open fork releases** opens this
+fork's GitHub Releases page. The tray menu provides the same entry point.
+Download fork updates there when releases are available. The app does not
+check for updates at startup or install updates automatically; an old saved
+startup-check preference has no effect.
+
+**Upstream content source** still selects GitHub/Gitee for upstream content,
+including plugins, skins and related links. It does not select the app's
+release source.
