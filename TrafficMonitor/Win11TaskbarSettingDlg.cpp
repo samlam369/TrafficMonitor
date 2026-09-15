@@ -36,7 +36,8 @@ void CWin11TaskbarSettingDlg::DoDataExchange(CDataExchange* pDX)
 
 CString CWin11TaskbarSettingDlg::GetDialogName() const
 {
-    return _T("TaskbarLayoutSettingDlg");
+    // Do not restore the oversized geometry saved by the first fork dialog.
+    return _T("TaskbarLayoutSettingDlgV2");
 }
 
 bool CWin11TaskbarSettingDlg::InitializeControls()
