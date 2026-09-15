@@ -1,4 +1,6 @@
-**[简体中文](./README.md) | English**
+> Preserved upstream documentation. Download links and badges below refer to the original project and do not contain this fork's additions. See the [fork overview](./README.md).
+
+**[简体中文](./docs/upstream/README_zh-cn.md) | English**
 
 [![Badge](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/en_US)
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg?style=flat-square)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
@@ -143,4 +145,3 @@ It should also be noted that the temperature monitoring function is turned off b
 # Update log
 
 **[Click here to view the update log.](./UpdateLog/update_log_en-us.md)**
-
