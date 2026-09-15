@@ -18,6 +18,12 @@ and About use `1.86-flex.1`.
 6. Publish the tag and GitHub pre-release with the ZIP and checksums. Record
    tested coverage and limitations; promote to a stable release separately.
 
+Fork tags (`v*-flex.*`) run the x64 Lite checks on Windows 2022. The inherited
+three-architecture Release CI is restricted to the upstream repository.
+For an existing immutable release tag, dispatch Fork checks from main with
+`source_ref` set to that tag. This validates the tagged source using the current
+workflow; it does not replace historical checks or uploaded release assets.
+
 The build uses dynamic MFC and requires the Microsoft Visual C++ v14 x64
 Redistributable. Get it from
 [Microsoft's supported downloads](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist).

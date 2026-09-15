@@ -7,6 +7,7 @@ on:
 jobs:
 
   x64_build:
+    if: github.repository == 'zhongyang219/TrafficMonitor'
     runs-on: windows-latest
 
     steps:
@@ -40,6 +41,7 @@ jobs:
         path: Bin/x64/Release (lite)/*.pdb
 
   x86_build:
+    if: github.repository == 'zhongyang219/TrafficMonitor'
     runs-on: windows-latest
 
     steps:
@@ -73,6 +75,7 @@ jobs:
         path: Bin/Release (lite)/*.pdb
 
   arm64ec_build:
+    if: github.repository == 'zhongyang219/TrafficMonitor'
     runs-on: windows-latest
 
     steps:
