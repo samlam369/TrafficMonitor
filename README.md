@@ -18,13 +18,19 @@ optional overlay placement mode.
   in the taskbar settings dialog.
 
 Overlay placement, three rows and compact units are opt-in. Existing INI keys
-are retained. Overlay does not reserve icon space: a crowded taskbar can still
-overlap the monitor.
+are retained. Overlay does not reserve space for Widgets/weather or app icons:
+they can overlap the monitor.
 
 ## Start here
 
-Open **Option Settings > Taskbar Window Settings > Layout and placement...**.
-For overlay placement, also enable the existing left-side taskbar option.
+Open **Option Settings > Taskbar Window Settings**:
+
+- **Taskbar window:** select left-side placement, then **Keep taskbar icons in
+  place (e.g. StartAllBack)** directly below it to enable edge placement.
+- **Unit Settings:** choose whether CPU frequency uses `G` instead of `GHz`.
+- **Layout and placement...:** choose two/three rows and adjust applicable offsets.
+
+The icon-preserving option is inactive when left-side placement is off.
 Read [settings](docs/settings.md) for activation conditions and examples.
 
 This fork is being prepared for its first reviewed release. Upstream binaries

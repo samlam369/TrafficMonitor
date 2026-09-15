@@ -46,7 +46,8 @@ machine paths. Keep public documentation reproducible without private files.
 
 ## Validation status
 
-The fork refactor needs its own build, automated and desktop results. Earlier
-local versions inform the design but do not certify this implementation. See
-[compatibility](compatibility.md) for the required coverage; attach actual results
-to the reviewed change or release rather than treating this guide as a test log.
+The review candidate has passed local x64 Lite builds and Windows CI geometry
+checks; review builds have also been deployed. See [compatibility](compatibility.md)
+for observed desktop behavior and the unresolved settings-open exit failure.
+Successful builds, geometry tests and individual screenshots do not replace the
+remaining manual checklist. Attach results to the tested commit or release.

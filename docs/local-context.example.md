@@ -29,6 +29,14 @@ preparing each worktree; Git does not populate ignored files in new worktrees.
 Document the machine's actual normal-exit mechanism, backup layout and rollback
 commands here. A source checkout or successful build is not a deployment.
 
+## current-installation.md
+
+Keep the current installed source revision, verified EXE hash, deployment time,
+backup location and selected runtime preferences in one place. Update it after
+verified deployment; a newly built or pushed commit is not automatically the
+installed revision. Other local documents should refer here instead of copying
+this mutable state.
+
 ## validation-log.md
 
 For each deployment, record date, commit, build configuration/overrides, executable

@@ -15,7 +15,11 @@ StartAllBack taskbar report itself as a native Windows 11 taskbar.
 Overlay selection requires the option, left-side placement, and the supported
 structure on the resolved primary taskbar. Use the same activation decision for
 window creation and settings applicability. Store the user's preference
-separately from whether overlay is currently active.
+separately from whether overlay is currently active. The icon-preserving
+checkbox and its explanation belong beside the parent left-placement option;
+the placement subdialog only edits row count and applicable native/offset values.
+Disabling the parent disables the effect and its child control without clearing
+the stored preference.
 
 Overlay computes orientation from taskbar geometry. Horizontal placement starts
 at the left edge plus the horizontal offset and centers vertically. Vertical
