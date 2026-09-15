@@ -2,7 +2,8 @@
 
 Open **Option Settings > Taskbar Window Settings > Layout and placement...**.
 The dialog exposes layout options independently of whether Windows reports a
-native Windows 11 taskbar. Native-only placement controls remain conditional.
+native Windows 11 taskbar. Native-only placement controls remain conditional. The compact CPU frequency
+checkbox is in **Taskbar Window Settings > Unit Settings**.
 
 ## Options and persisted keys
 
@@ -18,7 +19,9 @@ All keys below belong to the existing `[task_bar]` INI section.
 | `cpu_freq_short_unit` | `false` | Use `G` instead of `GHz` in taskbar CPU frequency values and related tooltips. The numeric unit remains GHz; main-window formatting is unchanged. |
 | `vertical_margin` | `0` | Existing row spacing, from -10 to 10. Three-row layout treats negative spacing as zero and limits positive spacing to available height. |
 
-Offsets scale with taskbar DPI. Overlay is centered across the taskbar's short
+Offsets scale with taskbar DPI. Negative horizontal values intentionally move
+the monitor left; in edge-overlay mode this can put part of it outside the
+taskbar and clip it. Use zero or a positive value for left-edge padding. Overlay is centered across the taskbar's short
 axis when it fits (otherwise that coordinate is zero); its active offset moves it along the long axis. The native Windows 11
 Widgets reservation and snap-near-Start controls do not apply to overlay mode.
 If the requested taskbar is unavailable and selection resolves to the primary

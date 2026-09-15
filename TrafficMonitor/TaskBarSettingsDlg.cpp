@@ -348,6 +348,7 @@ BOOL CTaskBarSettingsDlg::OnInitDialog()
         m_hide_unit_chk.EnableWindow(FALSE);
     }
     ((CButton*)GetDlgItem(IDC_HIDE_PERCENTAGE_CHECK))->SetCheck(m_data.hide_percent);
+    CheckDlgButton(IDC_COMPACT_CPU_FREQ_CHECK, m_data.cpu_freq_short_unit);
     ((CButton*)GetDlgItem(IDC_SPECIFY_EACH_ITEM_COLOR_CHECK))->SetCheck(m_data.specify_each_item_color);
     m_background_transparent_chk.SetCheck(m_data.IsTaskbarTransparent());
     m_atuo_adapt_light_theme_chk.SetCheck(m_data.auto_adapt_light_theme);
@@ -887,6 +888,8 @@ BOOL CTaskBarSettingsDlg::OnCommand(WPARAM wParam, LPARAM lParam)
 {
     // TODO: 在此添加专用代码和/或调用基类
     UINT cmd = LOWORD(wParam);
+    if (cmd == IDC_COMPACT_CPU_FREQ_CHECK && HIWORD(wParam) == BN_CLICKED)
+        m_data.cpu_freq_short_unit = IsDlgButtonChecked(IDC_COMPACT_CPU_FREQ_CHECK) != 0;
 
     if (cmd >= ID_DEFAULT_STYLE1 && cmd < ID_DEFAULT_STYLE_MAX)
     {

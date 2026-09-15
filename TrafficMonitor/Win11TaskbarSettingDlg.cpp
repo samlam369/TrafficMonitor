@@ -91,7 +91,6 @@ BOOL CWin11TaskbarSettingDlg::OnInitDialog()
     m_widgets_width_edit.SetRange(0, 300);
     m_widgets_width_edit.SetValue(m_data.taskbar_left_space_win11);
     CheckDlgButton(IDC_TASKBAR_OVERLAY_CHECK, m_data.taskbar_left_overlay);
-    CheckDlgButton(IDC_COMPACT_CPU_FREQ_CHECK, m_data.cpu_freq_short_unit);
     auto* rows = static_cast<CComboBox*>(GetDlgItem(IDC_TASKBAR_ROWS_COMBO));
     rows->AddString(L"2");
     rows->AddString(L"3");
@@ -113,7 +112,6 @@ BOOL CWin11TaskbarSettingDlg::OnInitDialog()
 void CWin11TaskbarSettingDlg::OnOK()
 {
     m_data.taskbar_left_overlay = IsDlgButtonChecked(IDC_TASKBAR_OVERLAY_CHECK) != 0;
-    m_data.cpu_freq_short_unit = IsDlgButtonChecked(IDC_COMPACT_CPU_FREQ_CHECK) != 0;
     m_data.taskbar_rows = static_cast<CComboBox*>(GetDlgItem(IDC_TASKBAR_ROWS_COMBO))->GetCurSel() == 1 ? 3 : 2;
     m_data.tbar_wnd_snap = (IsDlgButtonChecked(IDC_TASKBAR_WND_SNAP_CHECK) != 0);
 
