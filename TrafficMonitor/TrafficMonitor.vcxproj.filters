@@ -528,6 +528,7 @@
     </ClInclude>
     <ClInclude Include="OverlayTaskbarDlg.h" />
     <ClInclude Include="OverlayLayout.h" />
+    <ClInclude Include="TaskbarLayout.h" />
     <ClInclude Include="Win11TaskbarDlg.h">
       <Filter>源文件和头文件\TaskBarDlg</Filter>
     </ClInclude>

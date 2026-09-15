@@ -12,6 +12,7 @@
 #include "DrawCommonFactory.h"
 #include "WindowsWebExperienceDetector.h"
 #include "TaskbarHelper.h"
+#include "TaskbarLayout.h"
 
 #ifdef DEBUG
 // DX调试信息捕获
@@ -468,7 +469,15 @@ bool CTaskBarDlg::AdjustWindowPos(bool force_adjust)
     if (force_adjust)
         ResetTaskbarPos();
 
+    const int previous_taskbar_height = m_rcTaskbar.Height();
     ::GetWindowRect(m_hTaskbar, m_rcTaskbar);   //获得任务栏的矩形区域
+    if (theApp.m_taskbar_data.taskbar_rows == 3 && !theApp.m_taskbar_data.horizontal_arrange
+        && previous_taskbar_height != m_rcTaskbar.Height())
+    {
+        if (!force_adjust)
+            ResetTaskbarPos();
+        force_adjust = true;
+    }
 
     static bool last_taskbar_on_top_or_bottom;
     CheckTaskbarOnTopOrBottom();
@@ -809,15 +818,24 @@ void CTaskBarDlg::CalculateWindowSize()
             }
             m_window_width += DPI(theApp.m_taskbar_data.item_space) * item_count;   //加上每个标签间的空隙
         }
+        else if (theApp.m_taskbar_data.taskbar_rows == 3 && CalculateThreeRowLayout())
+        {
+            // Opt-in layout; fall back to two rows when three text rows cannot fit.
+        }
         else        //非水平排列时，每两个一组排列
         {
             int current_x = DPI(theApp.m_taskbar_data.item_space); // 初始 X 坐标为左侧空隙
             int item_space = DPI(theApp.m_taskbar_data.item_space);
 
-            //计算两个一组时上下区域的垂直位置
-            int item_height = m_window_height / 2;
-            int y_pos_up = -DPI(theApp.m_taskbar_data.vertical_margin) / 2;
-            int y_pos_down = y_pos_up + item_height + DPI(theApp.m_taskbar_data.vertical_margin);
+            TEXTMETRIC metrics{};
+            const int text_height = m_pDC->GetTextMetrics(&metrics)
+                ? static_cast<int>(metrics.tmHeight) : m_window_height / 2;
+            const auto row_bounds = TaskbarLayout::CalculateTwoRows(m_window_height,
+                DPI(theApp.m_taskbar_data.vertical_margin), text_height);
+            const int y_pos_up = 0;
+            const int y_pos_up_bottom = row_bounds.upper_bottom;
+            const int y_pos_down = row_bounds.lower_top;
+            const int y_pos_down_bottom = m_window_height;
 
             int width0 = 0;
             int max_width0 = 0;
@@ -857,7 +875,7 @@ void CTaskBarDlg::CalculateWindowSize()
 
                         first_iter = iter;
                         // 暂时设置 rect，right 边界会在配对成功或循环结束时根据列最大宽度进行修正
-                        m_item_rects[*iter].SetRect(current_x, y_pos_up, current_x + width0, y_pos_up + item_height);
+                        m_item_rects[*iter].SetRect(current_x, y_pos_up, current_x + width0, y_pos_up_bottom);
 
                         has_first_item = true;
                     }
@@ -870,7 +888,7 @@ void CTaskBarDlg::CalculateWindowSize()
                         m_item_rects[*first_iter].right = current_x + col_width;
 
                         // 设置第二个项目的矩形区域
-                        m_item_rects[*iter].SetRect(current_x, y_pos_down, current_x + col_width, y_pos_down + item_height);
+                        m_item_rects[*iter].SetRect(current_x, y_pos_down, current_x + col_width, y_pos_down_bottom);
 
                         current_x += col_width + item_space;
                         has_first_item = false;
@@ -928,6 +946,36 @@ void CTaskBarDlg::CalculateWindowSize()
     m_rect.right = m_rect.left + m_window_width;
     m_rect.bottom = m_rect.top + m_window_height;
 
+}
+
+bool CTaskBarDlg::CalculateThreeRowLayout()
+{
+    TEXTMETRIC metrics{};
+    if (!m_pDC->GetTextMetrics(&metrics))
+        return false;
+
+    std::vector<TaskbarLayout::Item> items;
+    items.reserve(m_item_widths.size());
+    for (const auto& item : m_item_widths)
+        items.push_back({ item.item_width.TotalWidth(), item.item_width.MaxWidth(),
+            item.IsDoubleLineExclusive() });
+
+    TaskbarLayout::Result layout;
+    if (!TaskbarLayout::CalculateThreeRows(items, m_rcTaskbar.Height() - DPI(2),
+        static_cast<int>(metrics.tmHeight), DPI(16), DPI(theApp.m_taskbar_data.vertical_margin),
+        DPI(theApp.m_taskbar_data.item_space), layout))
+        return false;
+
+    for (size_t i = 0; i < m_item_widths.size(); ++i)
+    {
+        auto& item = m_item_widths[i];
+        const auto& rect = layout.rectangles[i];
+        m_item_rects[item].SetRect(rect.left, rect.top, rect.right, rect.bottom);
+        item.is_double_line = rect.stacked;
+    }
+    m_window_width = layout.width;
+    m_window_height = layout.height;
+    return true;
 }
 
 void CTaskBarDlg::SetToolTipsTopMost()

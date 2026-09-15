@@ -867,6 +867,7 @@
     <ClInclude Include="WIC.h" />
     <ClInclude Include="OverlayTaskbarDlg.h" />
     <ClInclude Include="OverlayLayout.h" />
+    <ClInclude Include="TaskbarLayout.h" />
     <ClInclude Include="Win11TaskbarDlg.h" />
     <ClInclude Include="Win11TaskbarSettingDlg.h" />
     <ClInclude Include="WindowsSettingHelper.h" />

@@ -323,6 +323,7 @@ struct TaskBarSettingData : public PublicSettingData
 
     int item_space{};                   //项目间距
     int vertical_margin{};              //项目垂直间距
+    int taskbar_rows{ 2 };              //Horizontal taskbar stacked layout: 2 or 3 rows
     int window_offset_top{};            //任务栏窗口顶部边距
     int window_offset_left{};           //任务栏窗口左侧边距
     void ValidItemSpace();
