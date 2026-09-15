@@ -30,6 +30,7 @@ protected:
     virtual bool InitializeControls() override;
 
     void EnableDlgCtrl(UINT id, bool enable);
+    void UpdatePlacementControls();
 
 	DECLARE_MESSAGE_MAP()
 public:

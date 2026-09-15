@@ -301,7 +301,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -340,7 +340,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -379,7 +379,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -418,7 +418,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -456,7 +456,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -494,7 +494,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -538,7 +538,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -581,7 +581,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -624,7 +624,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -667,7 +667,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -709,7 +709,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -751,7 +751,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>print_compile_time.bat</Command>
+      <Command>call &quot;$(ProjectDir)print_compile_time.bat&quot;</Command>
     </PreBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>$(UM_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -865,6 +865,9 @@
     <ClInclude Include="TrafficMonitorDlg.h" />
     <ClInclude Include="UpdateHelper.h" />
     <ClInclude Include="WIC.h" />
+    <ClInclude Include="OverlayTaskbarDlg.h" />
+    <ClInclude Include="OverlayLayout.h" />
+    <ClInclude Include="TaskbarLayout.h" />
     <ClInclude Include="Win11TaskbarDlg.h" />
     <ClInclude Include="Win11TaskbarSettingDlg.h" />
     <ClInclude Include="WindowsSettingHelper.h" />
@@ -987,6 +990,7 @@
     <ClCompile Include="TrafficMonitorDlg.cpp" />
     <ClCompile Include="UpdateHelper.cpp" />
     <ClCompile Include="WIC.cpp" />
+    <ClCompile Include="OverlayTaskbarDlg.cpp" />
     <ClCompile Include="Win11TaskbarDlg.cpp" />
     <ClCompile Include="Win11TaskbarSettingDlg.cpp" />
     <ClCompile Include="WindowsSettingHelper.cpp" />

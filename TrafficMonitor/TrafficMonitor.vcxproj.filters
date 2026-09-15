@@ -526,6 +526,9 @@
     <ClInclude Include="ClassicalTaskbarDlg.h">
       <Filter>源文件和头文件\TaskBarDlg</Filter>
     </ClInclude>
+    <ClInclude Include="OverlayTaskbarDlg.h" />
+    <ClInclude Include="OverlayLayout.h" />
+    <ClInclude Include="TaskbarLayout.h" />
     <ClInclude Include="Win11TaskbarDlg.h">
       <Filter>源文件和头文件\TaskBarDlg</Filter>
     </ClInclude>
@@ -807,6 +810,7 @@
     <ClCompile Include="ClassicalTaskbarDlg.cpp">
       <Filter>源文件和头文件\TaskBarDlg</Filter>
     </ClCompile>
+    <ClCompile Include="OverlayTaskbarDlg.cpp" />
     <ClCompile Include="Win11TaskbarDlg.cpp">
       <Filter>源文件和头文件\TaskBarDlg</Filter>
     </ClCompile>

@@ -15,6 +15,7 @@
 #include "SupportedRenderEnums.h"
 #include "ClassicalTaskbarDlg.h"
 #include "Win11TaskbarDlg.h"
+#include "OverlayTaskbarDlg.h"
 #include "WineTaskbarDlg.h"
 #include "TaskbarHelper.h"
 #include "SkinManager.h"
@@ -580,6 +581,8 @@ void CTrafficMonitorDlg::OpenTaskBarWnd()
     theApp.CheckWindows11Taskbar();
     if (theApp.m_win_version.IsWine())
         m_tBarDlg = new CWineTaskbarDlg();
+    else if (COverlayTaskbarDlg::IsEnabled(theApp.m_taskbar_data))
+        m_tBarDlg = new COverlayTaskbarDlg();
     else if (theApp.IsWindows11Taskbar())
         m_tBarDlg = new CWin11TaskbarDlg();
     else
@@ -787,6 +790,8 @@ void CTrafficMonitorDlg::ApplySettings(COptionsDlg& optionsDlg)
         || theApp.m_taskbar_data.IsTaskbarTransparent() != optionsDlg.m_tab2_dlg.m_data.IsTaskbarTransparent()
         || theApp.m_taskbar_data.auto_set_background_color != optionsDlg.m_tab2_dlg.m_data.auto_set_background_color
         );
+    taskbar_changed = taskbar_changed ||
+        COverlayTaskbarDlg::IsEnabled(theApp.m_taskbar_data) != COverlayTaskbarDlg::IsEnabled(optionsDlg.m_tab2_dlg.m_data);
     bool is_skin_data_changed = (theApp.m_main_wnd_data.ToSkinSettingData() != optionsDlg.m_tab1_dlg.m_data.ToSkinSettingData());
 
     theApp.m_main_wnd_data = optionsDlg.m_tab1_dlg.m_data;

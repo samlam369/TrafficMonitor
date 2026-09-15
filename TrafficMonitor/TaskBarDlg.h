@@ -185,6 +185,7 @@ protected:
     void DrawPluginItem(IDrawCommon& drawer, IPluginItem* item, CRect rect, int label_width, bool vertical = false);
 
     void MoveWindow(CRect rect);
+    bool CalculateThreeRowLayout(); // Returns false when the taskbar is too short
 
 public:
     static void DisableRenderFeatureIfNecessary(CSupportedRenderEnums& ref_supported_render_enums);

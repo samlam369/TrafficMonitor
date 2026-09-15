@@ -244,6 +244,7 @@ struct PublicSettingData
     FontInfo font;          //字体
     DispStrings disp_str;   //显示的文本
     bool speed_short_mode{ false };     //网速显示简洁模式（减少小数点的位数，单位不显示“B”）
+    bool cpu_freq_short_unit{ false };  //CPU频率单位使用G代替GHz
     bool separate_value_unit_with_space{ true };    //网速数值和单位用空格分隔
     bool show_tool_tip{ true };         //显示鼠标提示
     MemoryDisplay memory_display{ MemoryDisplay::USAGE_PERCENTAGE };    //内存显示方式
@@ -316,12 +317,14 @@ struct TaskBarSettingData : public PublicSettingData
     bool horizontal_arrange{ true };    //水平排列
     bool show_status_bar{ true };       //显示 CPU/内存的状态条
     bool tbar_wnd_on_left{ false };     //如果为true，则任务栏窗口显示在任务栏的左侧（或上方）
+    bool taskbar_left_overlay{ false }; //在主屏幕任务栏最左侧（或垂直任务栏最上方）显示，不移动任务栏图标
     bool tbar_wnd_snap{ false };     	//如果为true，则在Win11中任务栏窗口贴靠中间任务栏，否则靠近边缘
     bool cm_graph_type{ false };        //如果为false，默认原样式，柱状图显示占用率，如为true，滚动显示占用率
     bool show_graph_dashed_box{ true }; //显示占用图虚线框
 
     int item_space{};                   //项目间距
     int vertical_margin{};              //项目垂直间距
+    int taskbar_rows{ 2 };              //Horizontal taskbar stacked layout: 2 or 3 rows
     int window_offset_top{};            //任务栏窗口顶部边距
     int window_offset_left{};           //任务栏窗口左侧边距
     void ValidItemSpace();

@@ -215,6 +215,7 @@ void CTrafficMonitorApp::LoadConfig()
     ini.LoadPluginDisplayStr(L"plugin_display_str_taskbar_window", m_taskbar_data.disp_str, false);
 
     m_taskbar_data.tbar_wnd_on_left = ini.GetBool(_T("task_bar"), _T("task_bar_wnd_on_left"), false);
+    m_taskbar_data.taskbar_left_overlay = ini.GetBool(L"task_bar", L"taskbar_left_overlay", false);
     m_taskbar_data.speed_short_mode = ini.GetBool(_T("task_bar"), _T("task_bar_speed_short_mode"), true);
     m_taskbar_data.tbar_wnd_snap = ini.GetBool(_T("task_bar"), _T("task_bar_wnd_snap"), false);
     m_taskbar_data.unit_byte = ini.GetBool(_T("task_bar"), _T("unit_byte"), true);
@@ -234,8 +235,10 @@ void CTrafficMonitorApp::LoadConfig()
     m_taskbar_data.show_graph_dashed_box = ini.GetBool(L"task_bar", L"show_graph_dashed_box", false);
     m_taskbar_data.item_space = ini.GetInt(L"task_bar", L"item_space", 8);
     m_taskbar_data.vertical_margin = ini.GetInt(L"task_bar", L"vertical_margin", 0);
+    m_taskbar_data.taskbar_rows = ini.GetInt(L"task_bar", L"taskbar_rows", 2) == 3 ? 3 : 2;
     m_taskbar_data.window_offset_top = ini.GetInt(L"task_bar", L"window_offset_top", 0);
     m_taskbar_data.window_offset_left = ini.GetInt(L"task_bar", L"window_offset_left", 0);
+    m_taskbar_data.cpu_freq_short_unit = ini.GetBool(L"task_bar", L"cpu_freq_short_unit", false);
     m_taskbar_data.ValidItemSpace();
     m_taskbar_data.ValidWindowOffsetTop();
     m_taskbar_data.ValidWindowOffsetLeft();
@@ -382,6 +385,7 @@ void CTrafficMonitorApp::SaveConfig()
     ini.SavePluginDisplayStr(L"plugin_display_str_taskbar_window", m_taskbar_data.disp_str);
 
     ini.WriteBool(L"task_bar", L"task_bar_wnd_on_left", m_taskbar_data.tbar_wnd_on_left);
+    ini.WriteBool(L"task_bar", L"taskbar_left_overlay", m_taskbar_data.taskbar_left_overlay);
     ini.WriteBool(L"task_bar", L"task_bar_wnd_snap", m_taskbar_data.tbar_wnd_snap);
     ini.WriteBool(L"task_bar", L"task_bar_speed_short_mode", m_taskbar_data.speed_short_mode);
     ini.WriteBool(L"task_bar", L"unit_byte", m_taskbar_data.unit_byte);
@@ -401,8 +405,10 @@ void CTrafficMonitorApp::SaveConfig()
     ini.WriteBool(L"task_bar", L"show_graph_dashed_box", m_taskbar_data.show_graph_dashed_box);
     ini.WriteInt(L"task_bar", L"item_space", m_taskbar_data.item_space);
     ini.WriteInt(L"task_bar", L"vertical_margin", m_taskbar_data.vertical_margin);
+    ini.WriteInt(L"task_bar", L"taskbar_rows", m_taskbar_data.taskbar_rows);
     ini.WriteInt(L"task_bar", L"window_offset_top", m_taskbar_data.window_offset_top);
     ini.WriteInt(L"task_bar", L"window_offset_left", m_taskbar_data.window_offset_left);
+    ini.WriteBool(L"task_bar", L"cpu_freq_short_unit", m_taskbar_data.cpu_freq_short_unit);
     ini.WriteBool(L"task_bar", L"avoid_overlap_with_widgets", m_taskbar_data.avoid_overlap_with_widgets);
     ini.WriteInt(L"task_bar", L"taskbar_left_space_win11", m_taskbar_data.taskbar_left_space_win11);
     ini.WriteInt(L"task_bar", L"taskbar_right_space_win11", m_taskbar_data.taskbar_right_space_win11);
@@ -531,74 +537,10 @@ void CTrafficMonitorApp::DPIFromWindow(CWnd* pWnd)
 
 void CTrafficMonitorApp::CheckUpdate(bool message)
 {
-    if (m_checking_update)      //如果还在检查更新，则直接返回
-        return;
-    CFlagLocker update_locker(m_checking_update);
-    CWaitCursor wait_cursor;
-
-    wstring version;        //程序版本
-    wstring link;           //下载链接
-    wstring contents_zh_cn; //更新内容（简体中文）
-    wstring contents_en;    //更新内容（English）
-    wstring contents_zh_tw; //更新内容（繁体中文）
-    CUpdateHelper update_helper;
-    update_helper.SetUpdateSource(static_cast<CUpdateHelper::UpdateSource>(m_general_data.update_source));
-    if (!update_helper.CheckForUpdate())
-    {
-        if (message)
-            AfxMessageBox(CCommon::LoadText(IDS_CHECK_UPDATE_FAILD), MB_OK | MB_ICONWARNING);
-        return;
-    }
-    version = update_helper.GetVersion();
-#ifdef _M_X64
-    link = update_helper.GetLink64();
-#elif defined _M_ARM64EC
-    link = update_helper.GetLinkArm64ec();
-#else
-    link = update_helper.GetLink();
-#endif
-    contents_zh_cn = update_helper.GetContentsZhCn();
-    contents_en = update_helper.GetContentsEn();
-    contents_zh_tw = update_helper.GetContentsZhTw();
-    if (version.empty() || link.empty())
-    {
-        if (message)
-        {
-            CString info = CCommon::LoadText(IDS_CHECK_UPDATE_ERROR);
-            info += _T("\r\nrow_data=");
-            info += std::to_wstring(update_helper.IsRowData()).c_str();
-
-            AfxMessageBox(info, MB_OK | MB_ICONWARNING);
-        }
-        return;
-    }
-    if (version > VERSION)      //如果服务器上的版本大于本地版本
-    {
-        CString info;
-        //根据语言设置选择对应语言版本的更新内容
-        wstring language_tag = m_str_table.GetLanguageInfo().bcp_47;
-        wstring contents_lan;
-        if (language_tag == L"zh-CN")
-            contents_lan = contents_zh_cn;
-        else if (language_tag == L"zh-TW")
-            contents_lan = contents_zh_tw;
-        else
-            contents_lan = contents_en;
-        if (contents_lan.empty())
-            info.Format(CCommon::LoadText(IDS_UPDATE_AVLIABLE), version.c_str());
-        else
-            info.Format(CCommon::LoadText(IDS_UPDATE_AVLIABLE2), version.c_str(), contents_lan.c_str());
-
-        if (AfxMessageBox(info, MB_YESNO | MB_ICONQUESTION) == IDYES)
-        {
-            ShellExecute(NULL, _T("open"), link.c_str(), NULL, NULL, SW_SHOW);      //转到下载链接
-        }
-    }
-    else
-    {
-        if (message)
-            AfxMessageBox(CCommon::LoadText(IDS_ALREADY_UPDATED), MB_OK | MB_ICONINFORMATION);
-    }
+    // Ignore background requests, including startup preferences from older INI files.
+    if (message)
+        ShellExecute(nullptr, L"open", L"https://github.com/samlam369/TrafficMonitor/releases",
+            nullptr, nullptr, SW_SHOW);
 }
 
 void CTrafficMonitorApp::CheckUpdateInThread(bool message)
@@ -1063,11 +1005,7 @@ BOOL CTrafficMonitorApp::InitInstance()
     // 例如修改为公司或组织名
     //SetRegistryKey(_T("应用程序向导生成的本地应用程序"));        //暂不使用注册表保存数据
 
-    //启动时检查更新
-    if (m_general_data.check_update_when_start)
-    {
-        CheckUpdateInThread(false);
-    }
+    // Fork releases are opened manually; no startup update requests.
 
 #ifndef WITHOUT_TEMPERATURE
     //检测是否安装.net framework 4.5

@@ -1,0 +1,29 @@
+name: Fork checks
+
+on:
+  push:
+    branches: [main, 'fork/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  x64-lite:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      - name: Test production layout geometry
+        shell: pwsh
+        run: ./tools/test-layout.ps1
+      - name: Build x64 Lite
+        shell: pwsh
+        run: msbuild TrafficMonitor_Lite.sln '-p:Configuration=Release (lite)' -p:Platform=x64 -p:PlatformToolset=v143 -nr:false
+      - name: Upload review executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: trafficmonitor-x64-lite-review
+          path: Bin/x64/Release (lite)/TrafficMonitor.exe
+          if-no-files-found: error

@@ -73,7 +73,6 @@ protected:
 public:
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedCheckNowButton();
-    afx_msg void OnBnClickedCheckUpdateCheck();
     afx_msg void OnBnClickedAutoRunCheck();
     virtual void OnOK();
     afx_msg void OnBnClickedTodayTrafficTipCheck();

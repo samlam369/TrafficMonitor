@@ -390,10 +390,7 @@ CString CommonDisplayItem::GetItemValueSampleText(bool is_main_window) const
         //CPU频率
         case TDI_CPU_FREQ:
         {
-            if (theApp.m_taskbar_data.separate_value_unit_with_space)
-                sample_str = _T("1.00 GHz");
-            else
-                sample_str = _T("1.00GHz");
+            sample_str = CCommon::FreqToString(1.0f, theApp.m_taskbar_data);
         }
             break;
         //流量
