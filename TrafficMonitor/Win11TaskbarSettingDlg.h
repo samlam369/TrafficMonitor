@@ -37,5 +37,4 @@ public:
     virtual BOOL OnInitDialog();
     virtual void OnOK();
     afx_msg void OnBnClickedRestoreDefaultButton();
-    afx_msg void OnOverlayChanged();
 };

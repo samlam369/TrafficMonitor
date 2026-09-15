@@ -117,6 +117,12 @@ void CTaskBarSettingsDlg::EnableControl()
         || (m_data.taskbar_left_overlay && COverlayTaskbarDlg::IsAvailable(m_data)));
     EnableDlgCtrl(IDC_ENABLE_COLOR_EMOJI_CHECK, !m_data.disable_d2d);
     EnableDlgCtrl(IDC_WIN11_SETTINGS_BUTTON, true);
+    const bool edge_available = COverlayTaskbarDlg::IsAvailable(m_data);
+    EnableDlgCtrl(IDC_TASKBAR_OVERLAY_CHECK, edge_available && m_data.tbar_wnd_on_left);
+    const wchar_t* edge_status = !edge_available ? L"TXT_OVERLAY_UNAVAILABLE" :
+        !m_data.tbar_wnd_on_left ? L"TXT_OVERLAY_NEEDS_LEFT" :
+        m_data.taskbar_left_overlay ? L"TXT_OVERLAY_ACTIVE" : L"TXT_OVERLAY_AVAILABLE";
+    SetDlgItemText(IDC_OVERLAY_STATUS_STATIC, theApp.m_str_table.LoadText(edge_status).c_str());
 }
 
 
@@ -349,6 +355,7 @@ BOOL CTaskBarSettingsDlg::OnInitDialog()
     }
     ((CButton*)GetDlgItem(IDC_HIDE_PERCENTAGE_CHECK))->SetCheck(m_data.hide_percent);
     CheckDlgButton(IDC_COMPACT_CPU_FREQ_CHECK, m_data.cpu_freq_short_unit);
+    CheckDlgButton(IDC_TASKBAR_OVERLAY_CHECK, m_data.taskbar_left_overlay);
     ((CButton*)GetDlgItem(IDC_SPECIFY_EACH_ITEM_COLOR_CHECK))->SetCheck(m_data.specify_each_item_color);
     m_background_transparent_chk.SetCheck(m_data.IsTaskbarTransparent());
     m_atuo_adapt_light_theme_chk.SetCheck(m_data.auto_adapt_light_theme);
@@ -888,6 +895,11 @@ BOOL CTaskBarSettingsDlg::OnCommand(WPARAM wParam, LPARAM lParam)
 {
     // TODO: 在此添加专用代码和/或调用基类
     UINT cmd = LOWORD(wParam);
+    if (cmd == IDC_TASKBAR_OVERLAY_CHECK && HIWORD(wParam) == BN_CLICKED)
+    {
+        m_data.taskbar_left_overlay = IsDlgButtonChecked(IDC_TASKBAR_OVERLAY_CHECK) != 0;
+        EnableControl();
+    }
     if (cmd == IDC_COMPACT_CPU_FREQ_CHECK && HIWORD(wParam) == BN_CLICKED)
         m_data.cpu_freq_short_unit = IsDlgButtonChecked(IDC_COMPACT_CPU_FREQ_CHECK) != 0;
 
