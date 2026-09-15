@@ -1,6 +1,26 @@
 ﻿#include "stdafx.h"
 #include "TaskbarHelper.h"
 #include <algorithm>
+#include "TrafficMonitor.h"
+#include "WindowsSettingHelper.h"
+
+HWND CTaskbarHelper::ResolveTaskbar(const TaskBarSettingData& data, bool& secondary)
+{
+    secondary = false;
+    HWND taskbar = nullptr;
+    if (data.show_taskbar_wnd_in_secondary_display && CWindowsSettingHelper::IsTaskbarShowingInAllDisplays())
+    {
+        std::vector<HWND> secondary_taskbars;
+        GetAllSecondaryDisplayTaskbar(secondary_taskbars);
+        if (!secondary_taskbars.empty())
+        {
+            const int index = max(0, min(data.secondary_display_index, static_cast<int>(secondary_taskbars.size()) - 1));
+            taskbar = secondary_taskbars[index];
+            secondary = taskbar != nullptr;
+        }
+    }
+    return taskbar != nullptr ? taskbar : ::FindWindow(L"Shell_TrayWnd", nullptr);
+}
 
 // 存储显示器信息
 struct MonitorInfo
