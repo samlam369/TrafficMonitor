@@ -30,6 +30,22 @@ Automated checks cover the x64 Lite build and layout geometry. They do not
 verify desktop integration or rendering. See the
 [fork review](https://github.com/samlam369/TrafficMonitor/pull/1) for build checks.
 
+### 1.86-flex.1 release coverage
+
+User-reported desktop validation covers **x64 Lite on Windows 11 25H2 with
+StartAllBack**:
+
+- Several days of daily use without reported stability issues.
+- Taskbar placement along the left, bottom and right screen edges.
+- Automatic fallback from three rows to two when taskbar height is reduced.
+- Taskbar display reappearing after restarting Windows Explorer in Task Manager.
+
+This validates the tested setup, not every StartAllBack version. Native Windows
+taskbars, other taskbar replacements, full builds, x86/ARM64EC and
+multi-monitor/mixed-DPI setups remain unverified for this release.
+These observations do not establish a pass for every settings combination,
+custom plugin, extreme font/spacing value or deployment rollback.
+
 Desktop validation is still partial. The checklist below defines the coverage
 needed for release review; it is not a list of passed tests. Results should
 identify the tested commit and environment.

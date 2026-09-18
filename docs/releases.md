@@ -18,6 +18,18 @@ and About use `1.86-flex.1`.
 6. Publish the tag and GitHub pre-release with the ZIP and checksums. Record
    tested coverage and limitations; promote to a stable release separately.
 
+## Stable promotion
+
+`1.86-flex.1` is promoted to a stable release for the tested x64 Lite,
+Windows 11 25H2 and StartAllBack setup. See [compatibility](compatibility.md)
+for user-reported placement, row fallback and Explorer recovery coverage,
+and configurations that remain unverified.
+
+Promotion changes release status and documentation only. Preserve the existing
+tag, executable, ZIP and checksums when code is unchanged. The original ZIP's
+README still describes its initial pre-release packaging; the release page
+records the current status. Code changes require a new fork version.
+
 Fork tags (`v*-flex.*`) run the x64 Lite checks on Windows 2022. The inherited
 three-architecture Release CI is restricted to the upstream repository.
 For an existing immutable release tag, dispatch Fork checks from main with
